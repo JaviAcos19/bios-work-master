@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragmentos/plantilla-maestra::html(~{::title}, ~{::body})}">
+    <head>
+        <title>Gestión de Clientes - Detalle de Cliente</title>
+    </head>
+
+    <body th:remove="tag">
+        <h1>Detalle de Cliente</h1>
+
+        <p th:replace="~{fragmentos/parrafo-mensaje}"></p>
+
+        <th:block th:if="${cliente}">
+            <h2 th:text="${cliente.nombre}"></h2>
+
+            <ul>
+                <li><strong>Nombre de Usuario</strong>: <span th:text="${cliente.nombreUsuario}"></span></li>
+                <li><strong>Clave de Acceso</strong>: <span th:text="${cliente.claveAcceso}"></span></li>
+                <li><strong>RUT</strong>: <span th:text="${cliente.rut}"></span></li>
+                <li><strong>Nombre</strong>: <span th:text="${cliente.nombre}"></span></li>
+                <li><strong>Sitio Web</strong>: 
+                    <a th:href="${cliente.sitioWeb}" th:text="${cliente.sitioWeb}" target="_blank"></a>
+                </li>
+            </ul>
+        </th:block>
+    </body>
+</html>

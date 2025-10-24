@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragmentos/plantilla-maestra::html(~{::title}, ~{::body})}">
+<head>
+    <title>Detalle de Área</title>
+</head>
+
+<body th:remove="tag">
+
+    <h2>Detalle del Área</h2>
+
+    <table class="detalle">
+        <tr>
+            <th>ID</th>
+            <td th:text="${area.id}"></td>
+        </tr>
+        <tr>
+            <th>Nombre</th>
+            <td th:text="${area.nombre}"></td>
+        </tr>
+    </table>
+
+    <div class="acciones-formulario">        
+        <a th:href="@{/areas}" class="boton-volver">Volver al listado</a>
+    </div>
+
+</body>
+</html>

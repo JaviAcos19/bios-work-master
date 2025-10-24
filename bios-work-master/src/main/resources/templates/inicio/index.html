@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragmentos/plantilla-maestra::html(~{::title}, ~{::body})}">
+<head>
+       <title>Bios-Work Inicio</title>
+</head>
+<body th:remove="tag">
+    
+    <h1 class="texto-centro">Bienvenidos a Bios-Work</h1>
+
+    <div class="introduccion">
+        <p>La plataforma que conecta talento, empresas y consultores en un único espacio digital.</p>
+
+        <p>En un mercado laboral cada vez más dinámico, Bios-Work ofrece una solución integral para la gestión de procesos de selección de personal,
+             pensada tanto para organizaciones como para profesionales.</p>
+
+        <ul class="Tabla-introducción">
+            <li>
+               <b>Postulantes:</b> registrarse, cargar su currículum, explorar ofertas vigentes y postularse de manera ágil y segura.
+            </li>
+            <li>
+               <b>Clientes:</b> publicar vacantes, gestionar postulaciones y acceder a la información de cada candidato de forma centralizada.
+            </li>
+            <li>
+               <b>Consultores:</b> administrar clientes, áreas y procesos de selección, asegurando un flujo de trabajo ordenado y transparente.
+            </li>
+            
+        </ul>
+    </div>
+
+    <p th:replace="~{fragmentos/parrafo-mensaje}"></p>
+
+</body>
+</html>

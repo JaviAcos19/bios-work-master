@@ -1,0 +1,60 @@
+<div xmlns:th="http://www.thymeleaf.org"
+     th:fragment="formulario-cliente(textoBoton, accion, foco)"
+     th:with="campoactivo = ${campoactivo} ?: false">
+
+  <form method="post"
+        th:action="${accion}"
+        th:object="${cliente}">
+    <div>
+      <label for="nombreUsuario">Nombre de Usuario</label>
+      <input type="text" th:field="*{nombreUsuario}" th:disabled="${campoactivo}">
+      <p th:errors="*{nombreUsuario}" class="error"></p>
+    </div>
+
+    <div>
+      <label for="claveAcceso">Contraseña</label>
+      <input type="text" th:field="*{claveAcceso}">
+      <p th:errors="*{claveAcceso}" class="error"></p>
+    </div>
+
+    <div>
+        <label for="rut">RUT</label>
+        <input type="text" th:field="*{rut}" th:disabled="${campoactivo}">
+        <p th:errors="*{rut}" class="error"></p>
+
+    <!-- Campo oculto que viaja en el POST -->
+        <input type="hidden" th:field="*{rut}">
+    </div>
+
+    <div>
+      <label for="nombre">Nombre</label>
+      <input type="text" th:field="*{nombre}">
+      <p th:errors="*{nombre}" class="error"></p>
+    </div>
+
+    <div>
+      <label>
+        <input type="checkbox" th:field="*{disponible}">
+        Disponible
+      </label>
+      <p th:errors="*{disponible}" class="error"></p>
+    </div>
+
+    <div>
+      <label for="sitioWeb">Sitio Web</label>
+      <input type="text" th:field="*{sitioWeb}">
+      <p th:errors="*{sitioWeb}" class="error"></p>
+    </div>
+
+    <div>
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+      <input type="submit" th:value="${textoBoton}" />
+    </div>
+  </form>
+
+  <script th:inline="javascript">
+    const id = /*[[${foco}]]*/ 'nombreUsuario';
+    const el = document.getElementById(id);
+    if (el) { el.focus(); el.select(); }
+  </script>
+</div>

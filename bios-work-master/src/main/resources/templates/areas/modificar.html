@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragmentos/plantilla-maestra::html(~{::title}, ~{::body})}">
+<head>
+    <title>Modificar Área</title>
+</head>
+
+<body th:remove="tag">
+
+    <h2>Modificar Área</h2>
+
+    <!-- Mensaje de éxito o error -->
+    <p th:replace="~{fragmentos/parrafo-mensaje}"></p>
+
+    
+    <form id="form-area" method="post" th:object="${area}" th:action="@{/areas/modificar}">
+        
+        <div>
+            <label for="id">ID</label>
+            <input type="number" th:field="*{id}" readonly />
+        </div>
+
+        <!-- Fragmento reutilizable con los campos -->
+        <div th:replace="~{fragmentos/formulario-areas-trabajo :: formulario-areas-trabajo('Actualizar')}"></div>
+
+        <div class="acciones-formulario">
+            <input type="submit" value="Modificar" />
+            <a th:href="@{/areas}" class="boton-cancelar">Cancelar</a>
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('nombre').focus();
+        document.getElementById('nombre').select();
+    </script>
+
+</body>
+</html>

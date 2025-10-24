@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragmentos/plantilla-maestra::html(~{::title}, ~{::body})}">
+    <head>
+        <title>Bios-Work - Página No Encontrada</title>
+    </head>
+    <body th:remove="tag">
+        <div class="texto-centro">
+            <h1>Página No Encontrada</h1>
+            <h3>(<span th:text="${status}"></span> - <span th:text="${error}"></span>)</h3>
+ 
+            <p>No se encontró la página solicitada.</p>
+        </div>
+    </body>
+</html>

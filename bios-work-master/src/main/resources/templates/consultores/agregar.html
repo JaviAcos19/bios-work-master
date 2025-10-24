@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragmentos/plantilla-maestra::html(~{::title}, ~{::body})}">
+<head>
+    <title>Gestión de Consultores: Agregar</title>
+</head>
+<body th:remove="tag">
+
+    <h1>Agregar Consultor</h1>
+    <p th:replace="~{fragmentos/parrafo-mensaje}"></p>
+
+    <div th:replace="~{fragmentos/formulario-consultor :: formulario-consultor('Agregar')}"></div>
+</body>
+</html>

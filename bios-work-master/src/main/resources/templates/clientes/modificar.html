@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragmentos/plantilla-maestra::html(~{::title}, ~{::body})}">
+<head>
+    <title>Gestión de Clientes - Modificar Cliente</title>
+</head>
+<body th:remove="tag">
+    <h1>Modificar Cliente</h1>
+
+    <p th:replace="~{fragmentos/parrafo-mensaje}"></p>
+
+    <th:block th:if="${cliente}">
+        <div th:replace="~{fragmentos/formulario-cliente :: formulario-cliente(
+            'Modificar',
+            @{/clientes/modificar/{nombreUsuario}(nombreUsuario=${cliente.nombreUsuario})},
+            'nombre'
+        )}" />
+    </th:block>
+</body>
+</html>

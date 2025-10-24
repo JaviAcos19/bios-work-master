@@ -1,0 +1,58 @@
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="formulario-cliente(textoBoton)" th:with="campoactivo = ${campoactivo} ?: false, foco = ${foco} ?: 'id'">
+
+<form method="post" th:object="ofertatrabajo">
+
+<!-- id -->
+ <div>
+    <label for="id">ID</label>
+    <input type="number" th:field="*{id}" th:disabled="${campoactivo}" />
+    <p th:errors="*{id}" class="error"></p>
+ </div>
+<!-- titulo -->
+ <div>
+    <label for="titulo">Titulo de Oferta</label>
+     <input type="text" th:field="*{titulo}" >
+     <p th:errors="*{titulo}" class="error"></p>
+</div>
+<!-- fecha de publicacion, es autogenerada pero me gustaria que se muestre cuando la necesite-->
+ <div th:if="${muestro}"> 
+    <label for="fechaPublicacion">Fecha de publicacion de la Oferta</label>
+    <input type="date" th:field="*{fechaPublicacion}" th:disabled="true" >
+    <p th:errors="*{fechaPublicacion}" class="error"></p> 
+ </div>
+
+ <div>
+    <label for="fechaCierre">Fecha de Cierre de la Oferta</label>
+    <input type="date" th:field="*{fechaCierre}" >
+    <p th:errors="*{fechaCierre}" class="error"></p>
+ </div>
+ <!-- Area -->
+  <div>
+            <label for="area.nombre">Area</label>
+            <select th:field="*{area.nombre}">
+                <option th:each="a : ${area}" th:value="${a.nombre}" th:text="${a.nombre}"></option>
+            </select>
+            <p th:errors="*{area.nombre}" class="error"></p>
+        </div>
+<!-- descripcion -->
+ div>
+    <label for="descripcionDetallada">Descripción Detallada</label>
+     <input type="text" th:field="*{descripcionDetallada}" class="descripcion-detallada">
+     <p th:errors="*{descripcionDetallada}" class="error"></p>
+</div>
+<!-- puestos vacantes -->
+ div>
+    <label for="puestosVacantes">Puestos Vacantes</label>
+     <input type="number" th:field="*{puestosVacantes}" >
+     <p th:errors="*{puestosVacantes}" class="error"></p>
+</div>
+</form>
+
+<script th:inline="javascript">
+    
+    document.getElementById(/*[[${foco}]]*/'nombreUsuario').focus();
+    document.getElementById(/*[[${foco}]]*/'nombreUsuario').select();
+</script>
+
+
+</div>

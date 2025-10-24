@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragmentos/plantilla-maestra::html(~{::title}, ~{::body})}">
+<head>
+    <title>Eliminar Área</title>
+</head>
+
+<body th:remove="tag">
+
+    <h2>Eliminar Área</h2>
+
+    <p>¿Está seguro que desea eliminar el siguiente registro?</p>
+
+    <table class="detalle">
+        <tr>
+            <th>ID</th>
+            <td th:text="${area.id}"></td>
+        </tr>
+        <tr>
+            <th>Nombre</th>
+            <td th:text="${area.nombre}"></td>
+        </tr>
+    </table>
+
+    <form method="post" th:action="@{|/areas/eliminar/${area.id}|}">
+        <p class="acciones-formulario">
+            <button type="submit" class="boton-eliminar">Sí, eliminar</button>
+            <a th:href="@{/areas}" class="boton-cancelar">Cancelar</a>
+        </p>
+    </form>
+
+</body>
+</html>

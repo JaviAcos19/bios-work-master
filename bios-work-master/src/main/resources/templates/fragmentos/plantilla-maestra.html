@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" th:fragment="html(titulo, contenido)">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:replace="${titulo}">Bios Work</title>
+
+    <link rel="stylesheet" th:href="@{/css/estilo.css}" />
+</head>
+
+<body>
+    
+    <header class="cabezal-principal">
+        <h1>BIOS WORK</h1>
+    </header>
+
+    
+<li sec:authorize="isAuthenticated()">
+    Rol: <span sec:authentication="principal.authorities"></span>
+</li>
+
+
+    <nav class="navegacion-principal">
+        <ul>
+            
+            <li>
+                <a th:href="@{/}">Inicio</a>
+                <ul>
+                    <li><a th:href="@{/ofertas}">Ofertas Vigentes</a></li>
+                    <li><a th:href="@{/postulantes/registro}">Registrarse como Postulante</a></li>
+                </ul>
+            </li>
+
+            <!-- CRUDs visibles solo para CONSULTOR -->
+            <li sec:authorize="hasRole('consultor')">
+                <a href="#">Gestión Consultores</a>
+                <ul>
+                    <li><a th:href="@{/clientes}">Clientes</a></li>
+                    <li><a th:href="@{/areas}">Áreas</a></li>
+                    <li><a th:href="@{/consultores}">Consultores</a></li>
+                    <li><a th:href="@{/ofertas}">Ofertas</a></li>
+                </ul>
+            </li>
+
+            <!-- Sección para CLIENTE -->
+            <li sec:authorize="hasRole('cliente')">
+                <a href="#">Mis Ofertas</a>
+                <ul>
+                    <li><a th:href="@{/ofertas}">Administrar Ofertas</a></li>
+                    <li><a th:href="@{/clientes/misdatos}">Mis Datos</a></li>
+                </ul>
+            </li>
+
+            <!-- Sección para POSTULANTE -->
+            <li sec:authorize="hasRole('postulante')">
+                <a href="#">Postulaciones</a>
+                <ul>
+                    <li><a th:href="@{/ofertas}">Ver Ofertas</a></li>
+                    <li><a th:href="@{/postulantes/mispostulaciones}">Mis Postulaciones</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        
+        <ul style="float: right; list-style: none;">
+            <!-- Mostrar solo si no está logueado -->
+            <li sec:authorize="isAnonymous()">
+                <a th:href="@{/login}">Ingresar</a>
+                <ul>
+                    <li><a th:href="@{/postulantes/registro}">Registrarse</a></li>
+                </ul>
+            </li>
+
+            <!-- Mostrar si está logueado -->
+            <li sec:authorize="isAuthenticated()">
+                <a sec:authentication="name" href="#"></a>
+                <ul>
+                    <li><a th:href="@{/logout}">Salir</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    
+    <section style="margin: 10px 0; text-align: center;">
+        <p th:if="${param.error}" style="color:red;">Credenciales inválidas.</p>
+        <p th:if="${param.logout}" style="color:green;">Sesión cerrada correctamente.</p>
+        <p th:if="${mensaje}" th:text="${mensaje}" style="color:green;"></p>
+    </section>
+
+    
+    <main class="contenido" th:insert="${contenido}"></main>
+
+    
+    <footer style="margin-top: 20px; text-align: center; color: gray;">
+        <p>&copy; 2025 BIOS Work - Obligatorio Analistas de Sistemas 3er Año</p>
+    </footer>
+</body>
+</html>

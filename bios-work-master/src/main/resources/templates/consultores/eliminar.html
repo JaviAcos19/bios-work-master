@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragmentos/plantilla-maestra::html(~{::title}, ~{::body})}">
+    <head>
+        <title>Gestión de Consultores: Eliminar</title>
+    </head>
+
+    <body th:remove="tag">
+        <h1>Eliminar Consultor</h1>
+
+        <!-- Mensaje de confirmación o error -->
+        <p th:replace="~{fragmentos/parrafo-mensaje}"></p>
+
+        <!-- Bloque que solo se muestra si existe un consultor -->
+        <th:block th:if="${consultor}">
+            <p>
+                ¿Confirma que desea eliminar al consultor con nombre de usuario
+                <strong th:text="${consultor.nombreUsuario}"></strong>?
+            </p>
+
+            <form method="post">
+                <div>
+                    <input type="submit" value="Eliminar" />
+                    <a th:href="@{/consultores}" class="boton-secundario">Cancelar</a>
+                </div>
+            </form>
+        </th:block>
+    </body>
+</html>

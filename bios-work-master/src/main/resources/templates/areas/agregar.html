@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragmentos/plantilla-maestra::html(~{::title}, ~{::body})}">
+<head>
+    <title>Agregar Área</title>
+</head>
+
+<body th:remove="tag">
+
+    <h2>Agregar Nueva Área</h2>
+
+    <!-- Mensaje de éxito o error -->
+    <p th:replace="~{fragmentos/parrafo-mensaje}"></p>
+
+    
+    <form id="form-area" method="post" th:object="${area}" th:action="@{/areas/agregar}">
+        
+        
+        <div th:replace="~{fragmentos/formulario-areas-trabajo :: formulario-areas-trabajo('Guardar')}"></div>
+
+        <div class="acciones-formulario">
+            <input type="submit" value="Guardar" />
+            <a th:href="@{/areas}" class="boton-cancelar">Cancelar</a>
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('nombre').focus();
+        document.getElementById('nombre').select();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragmentos/plantilla-maestra::html(~{::title}, ~{::body})}">
+    <head>
+        <title>Gestión de Clientes - Eliminar Cliente</title>
+    </head>
+
+    <body th:remove="tag">
+        <h1>Eliminar Cliente</h1>
+
+        <!-- Mensaje de confirmación o error -->
+        <p th:replace="~{fragmentos/parrafo-mensaje}"></p>
+
+        <!-- Bloque que solo se muestra si existe un cliente -->
+        <th:block th:if="${cliente}">
+            <p>
+                ¿Confirma que desea eliminar al cliente con usuario
+                <strong th:text="${cliente.nombreUsuario}"></strong>,
+                nombre <strong th:text="${cliente.nombreUsuario}"></strong>
+                y RUT <strong th:text="${cliente.rut}"></strong>?
+            </p>
+
+            <form method="post">
+                <div>
+                    <input type="submit" value="Eliminar" />
+                    <a th:href="@{/clientes}" class="boton-secundario">Cancelar</a>
+                </div>
+            </form>
+        </th:block>
+    </body>
+</html>

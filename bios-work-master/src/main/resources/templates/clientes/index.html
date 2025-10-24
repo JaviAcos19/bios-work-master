@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragmentos/plantilla-maestra::html(~{::title}, ~{::body})}">
+<head>
+    <title>Clientes</title>
+</head>
+
+<body th:remove="tag">
+    <h1>Clientes</h1>
+
+    <!-- Mensaje -->
+    <p th:replace="~{fragmentos/parrafo-mensaje}"></p>
+
+    <!-- Buscador -->
+    <form id="formularioBusqueda" method="get" th:action="@{/clientes}">
+        <div>
+            <input type="search" name="nombreUsuario" id="nombreUsuario"
+                   placeholder="código o descripción"
+                   th:value="${param.nombreUsuario != null ? param.nombreUsuario[0] : ''}">
+            <input type="submit" value="Buscar">
+            <a th:if="${param.nombreUsuario != null and !#strings.isEmpty(param.nombreUsuario[0])}"
+               th:href="@{/clientes}" style="margin-left:8px">Limpiar</a>
+        </div>
+    </form>
+
+    <!-- Botón Agregar (icono +) -->
+    <p style="margin:10px 0;">
+        <a th:href="@{/clientes/agregar}" title="Agregar"><i class="icono icono-agregar"></i></a>
+    </p>
+
+    <!-- Listado -->
+    <table class="listado">
+        <tr>
+            <th>NOMBRE DE USUARIO</th>
+            <th>RUT</th>
+            <th>NOMBRE</th>
+            <th>SITIO WEB</th>
+            <th>DISPONIBLE</th>
+            <th></th>
+        </tr>
+
+        <!-- Filas -->
+        <tr th:each="c : ${clientes}">
+            <!-- Usuario como link de detalle (azul) -->
+            <td class="texto-centro">
+                <a th:href="@{/clientes/{nombreUsuario}(nombreUsuario=${c.nombreUsuario})}"
+                   th:text="${c.nombreUsuario}">usuario</a>
+            </td>
+
+            <td class="texto-centro" th:text="${c.rut}">111111111111</td>
+            <td th:text="${c.nombre}">Nombre del Cliente</td>
+
+            <td>
+                <a th:if="${c.sitioWeb != null and !#strings.isEmpty(c.sitioWeb)}"
+                   th:href="${c.sitioWeb}" target="_blank" rel="noopener"
+                   th:text="${c.sitioWeb}">https://sitio.com</a>
+                <span th:if="${c.sitioWeb == null or #strings.isEmpty(c.sitioWeb)}">—</span>
+            </td>
+
+            <td class="texto-centro">
+                <input type="checkbox" th:checked="${c.disponible}" disabled>
+            </td>
+
+            <!-- Acciones por fila: Ver / Modificar / Eliminar -->
+            <td class="texto-centro">
+                <!-- Ver -->
+                <a th:href="@{/clientes/{nombreUsuario}(nombreUsuario=${c.nombreUsuario})}" title="Ver Detalle">
+                    <i class="icono icono-ver"></i>
+                </a>&nbsp;&nbsp;
+
+                <!-- Modificar (usa path variable) -->
+                <a th:href="@{/clientes/modificar/{nombreUsuario}(nombreUsuario=${c.nombreUsuario})}" title="Modificar">
+                    <i class="icono icono-modificar"></i>
+                </a>&nbsp;&nbsp;
+
+                <!-- Eliminar (abre diálogo) -->
+                <a href="#" title="Eliminar" class="boton-eliminar"
+                   th:data-usuario="${c.nombreUsuario}" th:data-nombre="${c.nombre}">
+                    <i class="icono icono-eliminar"></i>
+                </a>
+            </td>
+        </tr>
+
+        <!-- Vacio -->
+        <tr th:if="${clientes == null or #lists.isEmpty(clientes)}">
+            <td colspan="6" class="texto-centro">
+                <span th:if="${param.nombreUsuario != null and !#strings.isEmpty(param.nombreUsuario[0])}">
+                    No se encontraron clientes con nombre de usuario
+                    "<span th:text="${param.nombreUsuario[0]}">X</span>".
+                </span>
+                <span th:if="${param.nombreUsuario == null or #strings.isEmpty(param.nombreUsuario[0])}">
+                    No hay clientes para mostrar.
+                </span>
+            </td>
+        </tr>
+    </table>
+
+    <p>
+        Cantidad de clientes:
+        <span th:text="${clientes != null ? clientes.size() : 0}">0</span>
+    </p>
+
+    <!-- Diálogo de eliminación -->
+    <dialog id="dialogoEliminar" class="texto-centro">
+        <p>
+            ¿Confirmás eliminar el cliente
+            <strong id="etiquetaUsuarioEliminar"></strong><br>
+            (<span id="etiquetaNombreEliminar"></span>)?
+        </p>
+
+        <!-- Importante: implementa en tu controlador el POST /clientes/eliminar -->
+        <form th:action="@{/clientes/eliminar}" method="post">
+            <input type="hidden" name="nombreUsuario" id="campoUsuarioEliminar">
+
+            <div>
+                <input type="button" value="Cancelar" id="botonCancelarEliminar">
+                &nbsp;&nbsp;&nbsp;
+                <input type="submit" value="Eliminar">
+            </div>
+        </form>
+    </dialog>
+
+    <script>
+        // Buscar: si limpian el search, volver a /clientes
+        document.getElementById('formularioBusqueda').addEventListener('search', function () {
+            var inp = document.getElementById('nombreUsuario');
+            if (inp && !inp.value) {
+                window.location = '/clientes';
+            }
+        });
+
+        // Diálogo eliminar
+        Array.from(document.getElementsByClassName('boton-eliminar')).forEach(el => {
+            el.addEventListener('click', function (ev) {
+                ev.preventDefault();
+                document.getElementById('etiquetaUsuarioEliminar').innerText = el.dataset.usuario;
+                document.getElementById('etiquetaNombreEliminar').innerText = el.dataset.nombre;
+                document.getElementById('campoUsuarioEliminar').value = el.dataset.usuario;
+                document.getElementById('dialogoEliminar').showModal();
+            });
+        });
+
+        document.getElementById('botonCancelarEliminar').addEventListener('click', function () {
+            document.getElementById('dialogoEliminar').close();
+        });
+
+        // Foco
+        var inputBusqueda = document.getElementById('nombreUsuario');
+        if (inputBusqueda) {
+            inputBusqueda.focus();
+            inputBusqueda.select();
+        }
+    </script>
+</body>
+</html>

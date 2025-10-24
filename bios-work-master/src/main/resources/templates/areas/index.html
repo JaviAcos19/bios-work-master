@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragmentos/plantilla-maestra::html(~{::title}, ~{::body})}">
+<head>
+    <title>Bios-Work Áreas</title>
+</head>
+
+<body th:remove="tag">
+
+    <p th:replace="~{fragmentos/parrafo-mensaje}"></p>
+
+    <form id="formularioBusqueda">
+        <div>
+            <input type="search" name="criterio" th:value="${param.criterio}" id="criterio" placeholder="Nombre de Área">
+            <input type="submit" value="Buscar">
+        </div>
+    </form>
+
+    <p>
+        <a th:href="@{/areas/agregar}" title="Agregar">
+            <i class="icono icono-agregar"></i>
+        </a>
+    </p>
+
+    <table class="listado">
+        <tr>
+            <th>ID</th>
+            <th>NOMBRE</th>
+            <th></th>
+        </tr>
+
+        <tr th:each="a : ${areas}">
+            <td th:text="${a.id}" class="texto-centro"></td>
+            <td th:text="${a.nombre}"></td>
+            <td class="texto-centro">
+                <a th:href="@{/areas/{id}(id=${a.id})}" title="Ver Detalle">
+                    <i class="icono icono-ver"></i>
+                </a>&nbsp;&nbsp;
+                <a th:href="@{/areas/modificar/{id}(id=${a.id})}" title="Modificar">
+                    <i class="icono icono-modificar"></i>
+                </a>&nbsp;&nbsp;
+                <a th:href="@{/areas/eliminar(id=${a.id})}" title="Eliminar">
+                    <i class="icono icono-eliminar"></i>
+                </a>
+            </td>
+        </tr>
+
+        <tr th:if="${#lists.isEmpty(areas)}">
+            <td colspan="3" class="texto-centro">No hay áreas registradas.</td>
+        </tr>
+    </table>
+
+    <script>
+        document.getElementById('formularioBusqueda').addEventListener('search', function() {
+            document.getElementById('formularioBusqueda').submit();
+        });
+        document.getElementById('criterio').focus();
+        document.getElementById('criterio').select();
+    </script>
+
+</body>
+</html>

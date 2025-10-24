@@ -1,0 +1,19 @@
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="formulario-areas-trabajo(textoBoton)" th:with="campoactivo = ${campoactivo} ?: false, foco = ${foco} ?: 'nombre'">
+
+    
+
+        <!-- nombre del Area -->
+        <div>
+            <label for="nombre">Nombre del Area</label>
+            <input type="text" th:field="*{nombre}" th:disabled="${campoactivo}">
+            <p th:errors="*{nombre}" class="error"></p>
+        </div>
+
+
+    
+
+    <script th:inline="javascript">
+        document.getElementById(/*[[${foco}]]*/'nombre').focus();
+        document.getElementById(/*[[${foco}]]*/'nombre').select();
+    </script>
+</div>
