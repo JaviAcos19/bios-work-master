@@ -100,55 +100,86 @@ public class ControladorClientes {
     @PostMapping("/modificar/{nombreUsuario}")
     public String procesarModificar(@PathVariable String nombreUsuario, @ModelAttribute("cliente") @Valid Cliente clienteFormulario, BindingResult result, Model model, RedirectAttributes attributes) {
 
-    if (result.hasErrors()) {
-        model.addAttribute("mensaje", "Error en el ingreso de datos");
-        model.addAttribute("campoactivo", true);
-        return "clientes/modificar";
-    }
-
-
-    try {
-        Cliente existente = servicioClientes.obtener(nombreUsuario);
-        if (existente == null || Boolean.FALSE.equals(existente.getDisponible())) {
-            model.addAttribute("mensaje", "¡ERROR! El cliente no existe o no está disponible.");
+        if (result.hasErrors()) {
+            model.addAttribute("mensaje", "Error en el ingreso de datos");
             model.addAttribute("campoactivo", true);
+        return "clientes/modificar";
+        }
+
+
+        try {
+        Cliente existente = servicioClientes.obtener(nombreUsuario);
+            if (existente == null || Boolean.FALSE.equals(existente.getDisponible())) {
+                model.addAttribute("mensaje", "¡ERROR! El cliente no existe o no está disponible.");
+                model.addAttribute("campoactivo", true);
             return "clientes/modificar";
         }
 
-        // Copiamos SOLO lo editable
-        existente.setClaveAcceso(clienteFormulario.getClaveAcceso());
-        existente.setNombre(clienteFormulario.getNombre());
+            // Copiamos SOLO lo editable
+            existente.setClaveAcceso(clienteFormulario.getClaveAcceso());
+            existente.setNombre(clienteFormulario.getNombre());
 
-        if (clienteFormulario.getSitioWeb() != null && clienteFormulario.getSitioWeb().isBlank()) {
-            existente.setSitioWeb(null);
-        } else {
-            existente.setSitioWeb(clienteFormulario.getSitioWeb());
-        }
+            if (clienteFormulario.getSitioWeb() != null && clienteFormulario.getSitioWeb().isBlank()) {
+                existente.setSitioWeb(null);
+            } else {
+                existente.setSitioWeb(clienteFormulario.getSitioWeb());
+            }
 
-        existente.setDisponible(
-            clienteFormulario.getDisponible() != null ? clienteFormulario.getDisponible() : existente.getDisponible()
-        );
+                existente.setDisponible(
+                clienteFormulario.getDisponible() != null ? clienteFormulario.getDisponible() : existente.getDisponible()
+            );
 
-        servicioClientes.modificar(existente);
+            servicioClientes.modificar(existente);
 
-        attributes.addFlashAttribute("mensaje", "Cliente modificado con éxito");
+            attributes.addFlashAttribute("mensaje", "Cliente modificado con éxito");
         return "redirect:/clientes";
 
-    } catch (ExcepcionBiosWork e) {
-        model.addAttribute("mensaje", "¡ERROR! " + e.getMessage());
-        model.addAttribute("campoactivo", true);
+        } catch (ExcepcionBiosWork e) {
+            model.addAttribute("mensaje", "¡ERROR! " + e.getMessage());
+            model.addAttribute("campoactivo", true);
         return "clientes/modificar";
-    } catch (Exception e) {
-        e.printStackTrace();
-        model.addAttribute("mensaje", "Ocurrió un error inesperado al modificar el cliente: " + e.getMessage());
-        model.addAttribute("campoactivo", true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("mensaje", "Ocurrió un error inesperado al modificar el cliente: " + e.getMessage());
+            model.addAttribute("campoactivo", true);
         return "clientes/modificar";
+        }
     }
-}
 
-    @GetMapping("/eliminar")
-    public String mostrarEliminar(@ModelAttribute Cliente clientes, Model model) {
-        
+
+    // ELIMINAR CLIENTE (VISTA DEDICADA)
+    @GetMapping("/eliminar/{nombreUsuario}")
+    public String mostrarEliminar(@PathVariable String nombreUsuario, Model model, RedirectAttributes attributes) {
+
+        Cliente existente = servicioClientes.obtener(nombreUsuario);
+        if (existente == null || Boolean.FALSE.equals(existente.getDisponible())) {
+            attributes.addFlashAttribute("mensaje", "¡ERROR! El cliente no existe o no está disponible.");
+            return "redirect:/clientes";
+        }
+
+        model.addAttribute("cliente", existente);
         return "clientes/eliminar";
+    }
+
+    @PostMapping("/eliminar/{nombreUsuario}")
+    public String procesarEliminar(@PathVariable String nombreUsuario, RedirectAttributes attributes, Model model) {
+        try {
+            servicioClientes.eliminar(nombreUsuario);
+            attributes.addFlashAttribute("mensaje", "Cliente eliminado con éxito.");
+            return "redirect:/clientes";
+
+        } catch (ExcepcionBiosWork e) {
+            model.addAttribute("mensaje", "¡ERROR! " + e.getMessage());
+            Cliente existente = servicioClientes.obtener(nombreUsuario);
+            if (existente != null) model.addAttribute("cliente", existente);
+            return "clientes/eliminar";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("mensaje", "Ocurrió un error inesperado al eliminar el cliente: " + e.getMessage());
+            Cliente existente = servicioClientes.obtener(nombreUsuario);
+            if (existente != null) model.addAttribute("cliente", existente);
+            return "clientes/eliminar";
+        }
     }
 }

@@ -17,14 +17,18 @@
       <p th:errors="*{claveAcceso}" class="error"></p>
     </div>
 
+
+
     <div>
         <label for="rut">RUT</label>
         <input type="text" th:field="*{rut}" th:disabled="${campoactivo}">
         <p th:errors="*{rut}" class="error"></p>
 
-    <!-- Campo oculto que viaja en el POST -->
-        <input type="hidden" th:field="*{rut}">
+        <!-- Solo en modificar (cuando el visible está disabled) -->
+        <input type="hidden" th:if="${campoactivo}" th:field="*{rut}">
     </div>
+
+
 
     <div>
       <label for="nombre">Nombre</label>

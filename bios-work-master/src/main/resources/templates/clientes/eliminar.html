@@ -20,7 +20,7 @@
                 y RUT <strong th:text="${cliente.rut}"></strong>?
             </p>
 
-            <form method="post">
+            <form th:action="@{/clientes/eliminar/{nombreUsuario}(nombreUsuario=${cliente.nombreUsuario})}" method="post">
                 <div>
                     <input type="submit" value="Eliminar" />
                     <a th:href="@{/clientes}" class="boton-secundario">Cancelar</a>

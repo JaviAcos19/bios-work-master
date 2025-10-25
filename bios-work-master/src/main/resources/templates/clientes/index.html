@@ -61,24 +61,23 @@
                 <input type="checkbox" th:checked="${c.disponible}" disabled>
             </td>
 
-            <!-- Acciones por fila: Ver / Modificar / Eliminar -->
-            <td class="texto-centro">
-                <!-- Ver -->
-                <a th:href="@{/clientes/{nombreUsuario}(nombreUsuario=${c.nombreUsuario})}" title="Ver Detalle">
-                    <i class="icono icono-ver"></i>
-                </a>&nbsp;&nbsp;
+            <!-- Acciones por fila -->
+        <td class="texto-centro">
+            <!-- Ver -->
+            <a th:href="@{/clientes/{nombreUsuario}(nombreUsuario=${c.nombreUsuario})}" title="Ver Detalle">
+                <i class="icono icono-ver"></i>
+            </a>&nbsp;&nbsp;
 
-                <!-- Modificar (usa path variable) -->
-                <a th:href="@{/clientes/modificar/{nombreUsuario}(nombreUsuario=${c.nombreUsuario})}" title="Modificar">
-                    <i class="icono icono-modificar"></i>
-                </a>&nbsp;&nbsp;
+            <!-- Modificar -->
+            <a th:href="@{/clientes/modificar/{nombreUsuario}(nombreUsuario=${c.nombreUsuario})}" title="Modificar">
+                <i class="icono icono-modificar"></i>
+            </a>&nbsp;&nbsp;
 
-                <!-- Eliminar (abre diálogo) -->
-                <a href="#" title="Eliminar" class="boton-eliminar"
-                   th:data-usuario="${c.nombreUsuario}" th:data-nombre="${c.nombre}">
-                    <i class="icono icono-eliminar"></i>
-                </a>
-            </td>
+            <!-- Eliminar: IR A LA PÁGINA DEDICADA -->
+            <a th:href="@{/clientes/eliminar/{nombreUsuario}(nombreUsuario=${c.nombreUsuario})}" title="Eliminar">
+                <i class="icono icono-eliminar"></i>
+            </a>
+        </td>
         </tr>
 
         <!-- Vacio -->
